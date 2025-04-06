@@ -18,7 +18,7 @@ const initialQuizData = [
   },
 ];
 
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbwdTZ5keyocaK4YtR3ZcbSduAppJGBZL_jBHcUuAzq_vAbfHbjCb1XIj9L_ixYmc6B_/exec";
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbwCuDAek3OU4bUC_IKB0zM3DssoeBIdb4qXZg0FUuOtBw4Vm3yWdYU3FMQLrCEJJuBG/exec";
 
 export default function StudentQuiz() {
   const [quizData, setQuizData] = useState(initialQuizData);
