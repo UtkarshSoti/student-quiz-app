@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 
 const initialQuizData = [
   {
-    question: "What is the SI unit of distance?",
-    options: ["metre", "second", "m/s", "newton"],
+    question: "What is the capital of France?",
+    options: ["Berlin", "Madrid", "Paris", "Lisbon"],
     answer: "Paris",
   },
   {
@@ -135,7 +134,7 @@ export default function StudentQuiz() {
         </div>
       ) : (
         <div style={{ background: "white", padding: "2rem", borderRadius: "1rem", maxWidth: "600px", width: "100%", marginBottom: "1.5rem" }}>
-          <motion.h1 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "1rem" }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>Student Quiz</motion.h1>
+          <h1 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "1rem" }}>Student Quiz</h1>
           {showScore ? (
             <div style={{ textAlign: "center" }}>
               <p style={{ fontSize: "1.25rem", fontWeight: "bold" }}>{studentName}, you scored {score} out of {quizData.length}</p>
