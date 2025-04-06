@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { db } from "./firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 const initialQuizData = [
   {
@@ -17,8 +20,6 @@ const initialQuizData = [
     answer: "William Shakespeare",
   },
 ];
-
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbwCuDAek3OU4bUC_IKB0zM3DssoeBIdb4qXZg0FUuOtBw4Vm3yWdYU3FMQLrCEJJuBG/exec";
 
 export default function StudentQuiz() {
   const [quizData, setQuizData] = useState(initialQuizData);
@@ -96,28 +97,30 @@ export default function StudentQuiz() {
   };
 
   const submitScore = async () => {
-    if (!studentName) return;
-    try {
-      await fetch(SHEET_URL, {
-        method: "POST",
-        body: JSON.stringify({ name: studentName, score }),
-        headers: { "Content-Type": "application/json" },
-      });
-      fetchLeaderboard();
-    } catch (error) {
-      console.error("Error submitting score:", error);
-    }
-  };
-
+  if (!studentName) return;
+  try {
+    await addDoc(collection(db, "scores"), {
+      name: studentName,
+      score: score,
+    });
+    fetchLeaderboard(); // update as needed
+  } catch (e) {
+    console.error("Error saving to Firebase", e);
+  }
+};
   const fetchLeaderboard = async () => {
     try {
-      const res = await fetch(SHEET_URL);
-      const data = await res.json();
-      setLeaderboard(data.sort((a, b) => b.score - a.score));
-    } catch (error) {
-      console.error("Error loading leaderboard:", error);
-    }
-  };
+      const querySnapshot = await getDocs(collection(db, "scores"));
+    const data = [];
+    querySnapshot.forEach((doc) => {
+      data.push(doc.data());
+    });
+    data.sort((a, b) => b.score - a.score);
+    setLeaderboard(data);
+  } catch (e) {
+    console.error("Error fetching leaderboard:", e);
+  }
+};
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#f3f4f6", padding: "1rem", display: "flex", flexDirection: "column", alignItems: "center" }}>
